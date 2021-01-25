@@ -1,9 +1,9 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Nav from './components/Nav';
-import Menu from './components/Menu';
-import Dashboard from './components/Dashboard';
+import Nav from './secure/components/Nav';
+import Menu from './secure/components/Menu';
+import Dashboard from './secure/Dashboard';
 
 function App() {
   return (
