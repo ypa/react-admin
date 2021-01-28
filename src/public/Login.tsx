@@ -12,7 +12,7 @@ class Login extends Component {
     e.preventDefault();
 
     // The /api/login call will set the cookies upon successful login
-    await axios.post('http://localhost:8000/api/login', {
+    await axios.post('/login', {
       email: this.email,
       password: this.password
     });
