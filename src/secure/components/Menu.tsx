@@ -1,13 +1,19 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Menu = () => (
   <nav className="col-md-2 d-none d-md-block bg-light sidebar">
     <div className="sidebar-sticky">
       <ul className="nav flex-column">
         <li className="nav-item">
-          <a className="nav-link active" href="#">
+          <NavLink to="/dashboard" className="nav-link">
             Dashboard
-          </a>
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink to="/users" className="nav-link">
+            Users
+          </NavLink>
         </li>
       </ul>
     </div>
