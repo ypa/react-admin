@@ -8,6 +8,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Login from './public/Login';
 import Register from './public/Register';
 import RedirectToDashboard from './secure/RedirectToDashboard';
+import UserEdit from './secure/users/UserEdit';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path={'/dashboard'} exact component={Dashboard} />
         <Route path={'/users'} exact component={Users} />
         <Route path={'/users/create'} component={UserCreate} />
+        <Route path={'/users/:id/edit'} component={UserEdit} />
         <Route path={'/login'} component={Login} />
         <Route path={'/register'} component={Register} />
       </BrowserRouter>
