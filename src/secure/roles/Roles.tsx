@@ -22,7 +22,7 @@ class Roles extends Component {
       await axios.delete(`/roles/${id}`);
 
       this.setState({
-        users: this.state.roles.filter((r: Role) => r.id !== id),
+        roles: this.state.roles.filter((r: Role) => r.id !== id),
       });
     }
   };
