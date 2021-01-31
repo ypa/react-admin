@@ -9,6 +9,7 @@ import Login from './public/Login';
 import Register from './public/Register';
 import RedirectToDashboard from './secure/RedirectToDashboard';
 import UserEdit from './secure/users/UserEdit';
+import Roles from './secure/roles/Roles';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path={'/users/:id/edit'} component={UserEdit} />
         <Route path={'/login'} component={Login} />
         <Route path={'/register'} component={Register} />
+        <Route path={'/roles'} exact component={Roles} />
       </BrowserRouter>
     </div>
   );
