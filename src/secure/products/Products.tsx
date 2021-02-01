@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Product } from '../../classes/product';
 import { User } from '../../classes/user';
+import Paginator from '../components/Paginator';
 
 class Products extends Component<{ user: User }> {
   state = {
@@ -22,18 +23,6 @@ class Products extends Component<{ user: User }> {
     this.lastPage = response.data.meta.lastPage;
   };
 
-  previous = async () => {
-    if (this.page === 1) return;
-    this.page--;
-    await this.componentDidMount();
-  };
-
-  next = async () => {
-    if (this.page === this.lastPage) return;
-    this.page++;
-    await this.componentDidMount();
-  };
-
   delete = async (id: number) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       await axios.delete(`/products/${id}`);
@@ -42,6 +31,12 @@ class Products extends Component<{ user: User }> {
         products: this.state.products.filter((p: Product) => p.id !== id),
       });
     }
+  };
+
+  handlePageChange = async (page: number) => {
+    this.page = page;
+
+    await this.componentDidMount();
   };
 
   render() {
@@ -97,20 +92,10 @@ class Products extends Component<{ user: User }> {
           </table>
         </div>
 
-        <nav>
-          <ul className="pagination">
-            <li className="page-item">
-              <a href="#" className="page-link" onClick={this.previous}>
-                Previous
-              </a>
-            </li>
-            <li className="page-item">
-              <a href="#" className="page-link" onClick={this.next}>
-                Next
-              </a>
-            </li>
-          </ul>
-        </nav>
+        <Paginator
+          lastPage={this.lastPage}
+          handlePageChange={this.handlePageChange}
+        />
       </Wrapper>
     );
   }
