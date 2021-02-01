@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Product } from '../../classes/product';
 import { User } from '../../classes/user';
 import Paginator from '../components/Paginator';
+import Deleter from '../components/Deleter';
 
 class Products extends Component<{ user: User }> {
   state = {
@@ -23,14 +24,10 @@ class Products extends Component<{ user: User }> {
     this.lastPage = response.data.meta.lastPage;
   };
 
-  delete = async (id: number) => {
-    if (window.confirm('Are you sure you want to delete this product?')) {
-      await axios.delete(`/products/${id}`);
-
-      this.setState({
-        products: this.state.products.filter((p: Product) => p.id !== id),
-      });
-    }
+  handleDelete = async (id: number) => {
+    this.setState({
+      products: this.state.products.filter((p: Product) => p.id !== id),
+    });
   };
 
   handlePageChange = async (page: number) => {
@@ -77,13 +74,19 @@ class Products extends Component<{ user: User }> {
                     <td>{product.description}</td>
                     <td>{product.price}</td>
                     <td>
-                      <a
-                        href="#"
-                        className="btn btn-sm btn-outline-secondary"
-                        onClick={() => this.delete(product.id)}
-                      >
-                        Delete
-                      </a>
+                      <div className="btn-group mr-2">
+                        <Link
+                          to={`/products/${product.id}/edit`}
+                          className="btn btn-sm btn-outline-secondary"
+                        >
+                          Edit
+                        </Link>
+                        <Deleter
+                          id={product.id}
+                          endpoint="/products"
+                          handleDelete={this.handleDelete}
+                        />
+                      </div>
                     </td>
                   </tr>
                 );
