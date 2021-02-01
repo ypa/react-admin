@@ -9,13 +9,29 @@ class Products extends Component<{ user: User }> {
   state = {
     products: [],
   };
+  page = 1;
+  lastPage = 0;
 
   componentDidMount = async () => {
-    const response = await axios.get(`/products`);
+    const response = await axios.get(`/products?page=${this.page}`);
 
     this.setState({
       products: response.data.data,
     });
+
+    this.lastPage = response.data.meta.lastPage;
+  };
+
+  previous = async () => {
+    if (this.page === 1) return;
+    this.page--;
+    await this.componentDidMount();
+  };
+
+  next = async () => {
+    if (this.page === this.lastPage) return;
+    this.page++;
+    await this.componentDidMount();
   };
 
   delete = async (id: number) => {
@@ -80,6 +96,21 @@ class Products extends Component<{ user: User }> {
             </tbody>
           </table>
         </div>
+
+        <nav>
+          <ul className="pagination">
+            <li className="page-item">
+              <a href="#" className="page-link" onClick={this.previous}>
+                Previous
+              </a>
+            </li>
+            <li className="page-item">
+              <a href="#" className="page-link" onClick={this.next}>
+                Next
+              </a>
+            </li>
+          </ul>
+        </nav>
       </Wrapper>
     );
   }
