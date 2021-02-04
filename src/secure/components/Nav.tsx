@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { User } from '../../classes/user';
 
 class Nav extends Component {
-  state = { redirect: false };
+  state = { user: new User(), redirect: false };
+
+  componentDidMount = async () => {
+    const response = await axios.get('/user');
+    this.setState({
+      user: response.data.data,
+    });
+  };
 
   handleSignOut = async () => {
     await axios.post('/logout', {});
@@ -23,12 +31,13 @@ class Nav extends Component {
         <a className="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
           Company name
         </a>
-        <ul className="navbar-nav px-3">
-          <li className="nav-item text-nowrap">
-            <a className="nav-link" href="#" onClick={this.handleSignOut}>
-              Sign out
-            </a>
-          </li>
+        <ul className="my-2 my-md-0 mr-md3">
+          <Link to="/profile" className="p-2 text-white">
+            {this.state.user.first_name} {this.state.user.last_name}
+          </Link>
+          <a className="p-2 text-white" href="#" onClick={this.handleSignOut}>
+            Sign out
+          </a>
         </ul>
       </nav>
     );
