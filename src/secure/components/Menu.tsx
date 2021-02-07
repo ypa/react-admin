@@ -1,38 +1,56 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { User } from '../../classes/user';
 
-const Menu = () => (
-  <nav className="col-md-2 d-none d-md-block bg-light sidebar">
-    <div className="sidebar-sticky">
-      <ul className="nav flex-column">
-        <li className="nav-item">
-          <NavLink to="/dashboard" className="nav-link">
-            Dashboard
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink to="/users" className="nav-link">
-            Users
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink to="/roles" className="nav-link">
-            Roles
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink to="/products" className="nav-link">
-            Products
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink to="/orders" className="nav-link">
-            Orders
-          </NavLink>
-        </li>
-      </ul>
-    </div>
-  </nav>
-);
+class Menu extends Component<{ user: User }> {
+  menuItems = [
+    {
+      link: '/dashboard',
+      name: 'Dashboard',
+    },
+    {
+      link: '/roles',
+      name: 'Roles',
+    },
+    {
+      link: '/products',
+      name: 'Products',
+    },
+    {
+      link: '/orders',
+      name: 'Orders',
+    },
+  ];
 
-export default Menu;
+  render() {
+    let menu: JSX.Element[] = [];
+    this.menuItems.forEach((item) => {
+      if (this.props.user.canView(item.name.toLowerCase())) {
+        menu.push(
+          <li className="nav-item" key={item.name}>
+            <NavLink to={item.link} className="nav-link">
+              {item.name}
+            </NavLink>
+          </li>
+        );
+      }
+    });
+
+    return (
+      <nav className="col-md-2 d-none d-md-block bg-light sidebar">
+        <div className="sidebar-sticky">
+          <ul className="nav flex-column">{menu}</ul>
+        </div>
+      </nav>
+    );
+  }
+}
+
+const mapStateToProps = (state: { user: User }) => {
+  return {
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps)(Menu);
