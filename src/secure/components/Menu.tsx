@@ -40,7 +40,15 @@ class Menu extends Component<{ user: User }> {
     return (
       <nav className="col-md-2 d-none d-md-block bg-light sidebar">
         <div className="sidebar-sticky">
-          <ul className="nav flex-column">{menu}</ul>
+          <ul className="nav flex-column">
+            <li className="nav-item" key="Dashboard">
+              <NavLink to="/dashboard" className="nav-link">
+                Dashboard
+              </NavLink>
+            </li>
+
+            {menu}
+          </ul>
         </div>
       </nav>
     );
