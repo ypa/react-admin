@@ -6,8 +6,8 @@ import { User } from '../../classes/user';
 class Menu extends Component<{ user: User }> {
   menuItems = [
     {
-      link: '/dashboard',
-      name: 'Dashboard',
+      link: '/users',
+      name: 'Users',
     },
     {
       link: '/roles',
