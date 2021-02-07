@@ -5,7 +5,7 @@ const setUserReducer = (state: { user: User } = { user: new User() }, action: { 
     case 'SET_USER':
       return {
         ...state,
-        uer: action.user
+        user: action.user
       };
     default:
       return state;
