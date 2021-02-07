@@ -24,4 +24,8 @@ export class User {
   canView(page: string) {
     return this.permissions.some(permission => permission === `view_${page}`);
   }
+
+  canEdit(page: string) {
+    return this.permissions.some(permission => permission === `edit_${page}`);
+  }
 }
