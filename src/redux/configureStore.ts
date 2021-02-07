@@ -1,5 +1,5 @@
 import { createStore } from 'redux';
-import setUserReducer from './reducers/serUserReducer';
+import setUserReducer from './reducers/setUserReducer';
 
 const configureStore = () => {
   return createStore(setUserReducer);
