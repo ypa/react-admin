@@ -6,6 +6,7 @@ import { Product } from '../../classes/product';
 import { User } from '../../classes/user';
 import Paginator from '../components/Paginator';
 import Deleter from '../components/Deleter';
+import { connect } from 'react-redux';
 
 class Products extends Component<{ user: User }> {
   state = {
@@ -36,19 +37,43 @@ class Products extends Component<{ user: User }> {
     await this.componentDidMount();
   };
 
+  renderUserActions = (id: number) => {
+    return this.props.user.canEdit('products') ? (
+      <div className="btn-group mr-2">
+        <Link
+          to={`/products/${id}/edit`}
+          className="btn btn-sm btn-outline-secondary"
+        >
+          Edit
+        </Link>
+        <Deleter
+          id={id}
+          endpoint="/products"
+          handleDelete={this.handleDelete}
+        />
+      </div>
+    ) : null;
+  };
+
+  renderAddButton = () => {
+    return this.props.user.canEdit('products') ? (
+      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div className="btn-toolbar mb-2 mb-md-0">
+          <Link
+            to="/products/create"
+            className="btn btn-sm btn-outline-secondary"
+          >
+            Add
+          </Link>
+        </div>
+      </div>
+    ) : null;
+  };
+
   render() {
     return (
       <Wrapper>
-        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <div className="btn-toolbar mb-2 mb-md-0">
-            <Link
-              to="/products/create"
-              className="btn btn-sm btn-outline-secondary"
-            >
-              Add
-            </Link>
-          </div>
-        </div>
+        {this.renderAddButton()}
 
         <div className="table-responsive">
           <table className="table table-striped table-sm">
@@ -73,21 +98,7 @@ class Products extends Component<{ user: User }> {
                     <td>{product.title}</td>
                     <td>{product.description}</td>
                     <td>{product.price}</td>
-                    <td>
-                      <div className="btn-group mr-2">
-                        <Link
-                          to={`/products/${product.id}/edit`}
-                          className="btn btn-sm btn-outline-secondary"
-                        >
-                          Edit
-                        </Link>
-                        <Deleter
-                          id={product.id}
-                          endpoint="/products"
-                          handleDelete={this.handleDelete}
-                        />
-                      </div>
-                    </td>
+                    <td>{this.renderUserActions(product.id)}</td>
                   </tr>
                 );
               })}
@@ -104,4 +115,10 @@ class Products extends Component<{ user: User }> {
   }
 }
 
-export default Products;
+const mapStateToProps = (state: { user: User }) => {
+  return {
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps)(Products);
